@@ -31,14 +31,22 @@ def unconfirmed():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+<<<<<<< HEAD
         user = User.query.filter_by(email=form.email.data).first()
+=======
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+>>>>>>> upstream/master
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
             return redirect(next)
+<<<<<<< HEAD
         flash('Invalid username or password.')
+=======
+        flash('Invalid email or password.')
+>>>>>>> upstream/master
     return render_template('auth/login.html', form=form)
 
 
@@ -54,7 +62,11 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+<<<<<<< HEAD
         user = User(email=form.email.data,
+=======
+        user = User(email=form.email.data.lower(),
+>>>>>>> upstream/master
                     username=form.username.data,
                     password=form.password.data)
         db.session.add(user)
@@ -112,7 +124,11 @@ def password_reset_request():
         return redirect(url_for('main.index'))
     form = PasswordResetRequestForm()
     if form.validate_on_submit():
+<<<<<<< HEAD
         user = User.query.filter_by(email=form.email.data).first()
+=======
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+>>>>>>> upstream/master
         if user:
             token = user.generate_reset_token()
             send_email(user.email, 'Reset Your Password',
@@ -145,7 +161,11 @@ def change_email_request():
     form = ChangeEmailForm()
     if form.validate_on_submit():
         if current_user.verify_password(form.password.data):
+<<<<<<< HEAD
             new_email = form.email.data
+=======
+            new_email = form.email.data.lower()
+>>>>>>> upstream/master
             token = current_user.generate_email_change_token(new_email)
             send_email(new_email, 'Confirm your email address',
                        'auth/email/change_email',
